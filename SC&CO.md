@@ -1,4 +1,3 @@
----
 # SRS - 2.2. Giỏ hàng & Thanh toán
 **Dự án:** Website E-commerce Kochi Lens
 ---
@@ -13,26 +12,17 @@ Tập trung vào tương tác giữa khách hàng, hệ thống tính toán và 
 * **Accountant (Kế toán):** Kiểm tra đối soát tiền về từ cổng thanh toán.
 
 ```mermaid
-usecaseDiagram
-    actor "Customer" as cus
-    actor "Payment Gateway" as pg
-    actor "Shipping API" as ship
-    actor "Accountant" as acc
+flowchart LR
+    cus[Customer] --> UC7[Quản lý Giỏ hàng]
+    cus --> UC8[Tính toán Thuế & Phí Ship]
+    cus --> UC9[Thanh toán Trực tuyến]
 
-    package "Kochi Lens Checkout System" {
-        usecase "Quản lý Giỏ hàng" as UC7
-        usecase "Tính toán Thuế & Phí Ship" as UC8
-        usecase "Thanh toán Trực tuyến" as UC9
-        usecase "Đối soát giao dịch" as UC10
-    }
+    acc[Accountant] --> UC10[Đối soát giao dịch]
 
-    cus --> UC7
-    cus --> UC8
-    cus --> UC9
-    UC8 --|> ship : Lấy phí ship
-    UC9 --|> pg : Chuyển hướng thanh toán
-    acc --> UC10
-    pg --|> UC10 : Phản hồi IPN/Webhook
+    UC8 -->|Lấy phí ship| ship[Shipping API]
+    UC9 -->|Chuyển hướng thanh toán| pg[Payment Gateway]
+
+    pg -->|Webhook/IPN| UC10
 ```
 
 ### 1.2. Sơ đồ Activity (Quy trình Thanh toán & Tích hợp)
