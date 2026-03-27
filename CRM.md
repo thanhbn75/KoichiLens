@@ -42,7 +42,6 @@ flowchart LR
 
     pg -->|IPN/Webhook| UC10
 ```
-
 ---
 
 ## Phần 2: Đặc tả chức năng (Functional Requirements)
