@@ -17,7 +17,7 @@ Xác định quyền hạn và tương tác của các đối tượng (Actors) 
 usecaseDiagram
     actor Customer
     actor Admin
-    actor WarehouseStaff as "Warehouse Staff"
+    actor WarehouseStaff as Warehouse Staff
 
     package "Kochi Lens System" {
         usecase UC1 as "Xem sản phẩm & Tồn kho realtime"
