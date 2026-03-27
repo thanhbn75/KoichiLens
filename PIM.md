@@ -14,27 +14,17 @@ Xác định quyền hạn và tương tác của các đối tượng (Actors) 
 * **Warehouse Staff (Nhân viên kho):** Nhận đơn hàng mới đổ về và cập nhật trạng thái đóng gói.
 
 ```mermaid
-usecaseDiagram
-    actor Customer
-    actor Admin
-    actor WarehouseStaff as Warehouse Staff
+flowchart LR
+    Customer --> UC1["Xem sản phẩm & Tồn kho realtime"]
+    Customer --> UC2["Chọn biến thể & Đặt hàng"]
+    Customer --> UC3["Thanh toán"]
 
-    package "Kochi Lens System" {
-        usecase UC1 as "Xem sản phẩm & Tồn kho realtime"
-        usecase UC2 as "Chọn biến thể & Đặt hàng"
-        usecase UC3 as "Thanh toán"
-        usecase UC4 as "Quản lý Sản phẩm & Biến thể"
-        usecase UC5 as "Cập nhật Tồn kho"
-        usecase UC6 as "Đóng gói đơn hàng"
-    }
+    Admin --> UC4["Quản lý Sản phẩm & Biến thể"]
+    Admin --> UC5["Cập nhật Tồn kho"]
 
-    Customer --> UC1
-    Customer --> UC2
-    Customer --> UC3
-    Admin --> UC4
-    Admin --> UC5
-    WarehouseStaff --> UC6
-    UC2 ..> UC5 : <<Trigger trừ tồn kho tạm thời>>
+    WarehouseStaff["Warehouse Staff"] --> UC6["Đóng gói đơn hàng"]
+
+    UC2 -.->|Trigger trừ tồn kho tạm thời| UC5
 ```
 
 ### 1.2. Sơ đồ Activity (Luồng đặt hàng)
