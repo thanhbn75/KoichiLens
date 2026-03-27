@@ -12,27 +12,17 @@ Phân quyền và hành vi giữa các nhóm khách hàng khác nhau nhằm tố
 * **Admin:** Phê duyệt tài khoản B2B, quản lý nhóm khách hàng và phân hạng (Rank).
 
 ```mermaid
-usecaseDiagram
-    actor "Guest" as guest
-    actor "B2C Member" as b2c
-    actor "B2B Member" as b2b
-    actor "Admin" as adm
+flowchart LR
+    guest[Guest] --> UC11[Đặt hàng nhanh]
+    
+    b2c[B2C Member] --> UC12[Đăng ký / Đăng nhập & Tích điểm]
+    b2c --> UC14[Quản lý thông tin xuất hóa đơn]
 
-    package "Customer Management System" {
-        usecase "Đặt hàng nhanh (Checkout as Guest)" as UC11
-        usecase "Đăng ký/Đăng nhập & Tích điểm" as UC12
-        usecase "Xem bảng giá chiết khấu B2B" as UC13
-        usecase "Quản lý thông tin Xuất hóa đơn" as UC14
-        usecase "Phân nhóm & Phê duyệt B2B" as UC15
-    }
-
-    guest --> UC11
-    b2c --> UC12
-    b2c --> UC14
-    b2b --> UC12
-    b2b --> UC13
+    b2b[B2B Member] --> UC12
+    b2b --> UC13[Xem bảng giá chiết khấu]
     b2b --> UC14
-    adm --> UC15
+
+    adm[Admin] --> UC15[Phân nhóm & Phê duyệt B2B]
 ```
 
 ### 1.2. Sơ đồ Activity (Phân luồng khách hàng khi đặt hàng)
