@@ -15,28 +15,26 @@ Xác định quyền hạn và tương tác của các đối tượng (Actors) 
 
 ```mermaid
 usecaseDiagram
-    actor "Customer" as cus
-    actor "Admin" as adm
-    actor "Warehouse Staff" as whs
+    actor Customer
+    actor Admin
+    actor WarehouseStaff as "Warehouse Staff"
 
     package "Kochi Lens System" {
-        usecase "Xem sản phẩm & Tồn kho realtime" as UC1
-        usecase "Chọn biến thể & Đặt hàng" as UC2
-        usecase "Thanh toán" as UC3
-        usecase "Quản lý Sản phẩm & Biến thể" as UC4
-        usecase "Cập nhật Tồn kho" as UC5
-        usecase "Đóng gói đơn hàng" as UC6
+        usecase UC1 as "Xem sản phẩm & Tồn kho realtime"
+        usecase UC2 as "Chọn biến thể & Đặt hàng"
+        usecase UC3 as "Thanh toán"
+        usecase UC4 as "Quản lý Sản phẩm & Biến thể"
+        usecase UC5 as "Cập nhật Tồn kho"
+        usecase UC6 as "Đóng gói đơn hàng"
     }
 
-    cus --> UC1
-    cus --> UC2
-    cus --> UC3
-    
-    adm --> UC4
-    adm --> UC5
-    
-    whs --> UC6
-    UC2 .> UC5 : Trigger trừ tồn kho tạm thời
+    Customer --> UC1
+    Customer --> UC2
+    Customer --> UC3
+    Admin --> UC4
+    Admin --> UC5
+    WarehouseStaff --> UC6
+    UC2 ..> UC5 : <<Trigger trừ tồn kho tạm thời>>
 ```
 
 ### 1.2. Sơ đồ Activity (Luồng đặt hàng)
