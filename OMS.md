@@ -12,25 +12,13 @@ Mô tả sự phối hợp liên phòng ban để hoàn tất một đơn hàng 
 * **Customer:** Theo dõi trạng thái đơn hàng từ phía giao diện web.
 
 ```mermaid
-usecaseDiagram
-    actor "Admin/Sales" as sales
-    actor "Warehouse Staff" as whs
-    actor "Accountant" as acc
-    actor "Customer" as cus
+flowchart LR
+    sales[Admin/Sales] --> UC16[Quản lý Draft Order]
+    sales --> UC17[Xác nhận Sale Order]
 
-    package "Order Management System (OMS)" {
-        usecase "Quản lý Draft Order" as UC16
-        usecase "Xác nhận Sale Order" as UC17
-        usecase "Xử lý Giao hàng (Delivery)" as UC18
-        usecase "Xuất hóa đơn (Invoice)" as UC19
-        usecase "Theo dõi vận đơn" as UC20
-    }
-
-    sales --> UC16
-    sales --> UC17
-    whs --> UC18
-    acc --> UC19
-    cus --> UC20
+    whs[Warehouse Staff] --> UC18[Xử lý Giao hàng (Delivery)]
+    acc[Accountant] --> UC19[Xuất hóa đơn (Invoice)]
+    cus[Customer] --> UC20[Theo dõi vận đơn]
 ```
 
 ### 1.2. Sơ đồ Activity (Luồng xử lý đơn hàng chi tiết)
