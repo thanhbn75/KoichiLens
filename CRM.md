@@ -30,23 +30,17 @@ flowchart LR
 ### 1.2. Sơ đồ Activity (Quy trình Thanh toán & Tích hợp)
 
 ```mermaid
-flowchart TD
-    A[Giỏ hàng] --> B[Nhập thông tin giao hàng & MST]
-    B --> C[Hệ thống gọi Shipping API]
-    C --> D[Hệ thống tính VAT & Tổng tiền]
-    D --> E[Khách chọn Cổng thanh toán VNPay/Momo]
-    
-    E --> F[Hệ thống tạo Giao dịch tạm & Redirect tới Cổng]
-    F --> G{Khách xác thực thanh toán?}
-    
-    G -- "Hủy/Thất bại" --> H[Trở về Giỏ hàng & Báo lỗi]
-    G -- "Thành công" --> I[Cổng thanh toán gửi Webhook/IPN]
-    
-    I --> J[Hệ thống cập nhật Đơn hàng: Confirmed]
-    J --> K[Ghi nhận doanh thu vào BackEnd Kế toán]
-    K --> L[Thông báo Kho chuẩn bị hàng]
-    
-    L --> M([Kết thúc])
+flowchart LR
+    cus["Customer"] --> UC7["Quản lý Giỏ hàng"]
+    cus --> UC8["Tính toán Thuế & Phí Ship"]
+    cus --> UC9["Thanh toán Trực tuyến"]
+
+    acc["Accountant"] --> UC10["Đối soát giao dịch"]
+
+    UC8 -->|Lấy phí ship| ship["Shipping API"]
+    UC9 -->|Chuyển hướng thanh toán| pg["Payment Gateway"]
+
+    pg -->|IPN/Webhook| UC10
 ```
 
 ---
