@@ -1,8 +1,6 @@
----
-
 # SRS - 2.4. Xử lý Đơn hàng (OMS)
 **Dự án:** Website E-commerce Kochi Lens
-
+---
 ## Phần 1: Mô hình hóa quy trình (Business Flow)
 
 ### 1.1. Sơ đồ Use Case
