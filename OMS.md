@@ -16,9 +16,9 @@ flowchart LR
     sales[Admin/Sales] --> UC16[Quản lý Draft Order]
     sales --> UC17[Xác nhận Sale Order]
 
-    whs[Warehouse Staff] --> UC18[Xử lý Giao hàng (Delivery)]
+    whs[Warehouse Staff] --> UC18[Xử lý Giao hàng Delivery]
 
-    acc[Accountant] --> UC19[Xuất hóa đơn (Invoice)]
+    acc[Accountant] --> UC19[Xuất hóa đơn Invoice]
 
     cus[Customer] --> UC20[Theo dõi vận đơn]
 ```
