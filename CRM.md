@@ -31,14 +31,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    cus["Customer"] --> UC7["Quản lý Giỏ hàng"]
+    cus[Customer] --> UC7[Quản lý Giỏ hàng]
     cus --> UC8["Tính toán Thuế & Phí Ship"]
     cus --> UC9["Thanh toán Trực tuyến"]
 
-    acc["Accountant"] --> UC10["Đối soát giao dịch"]
+    acc[Accountant] --> UC10[Đối soát giao dịch]
 
-    UC8 -->|Lấy phí ship| ship["Shipping API"]
-    UC9 -->|Chuyển hướng thanh toán| pg["Payment Gateway"]
+    UC8 -->|Lấy phí ship| ship[Shipping API]
+    UC9 -->|Chuyển hướng thanh toán| pg[Payment Gateway]
 
     pg -->|IPN/Webhook| UC10
 ```
