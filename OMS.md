@@ -69,44 +69,36 @@ flowchart TD
 
 ### 2.2. Xác nhận Đơn hàng (Sale Order)
 * **US23:** Là một Admin, tôi muốn chuyển trạng thái từ Draft sang Sale Order để chính thức ghi nhận doanh số và gửi lệnh xuống bộ phận kho.
-* **US24:** Là hệ thống, khi đơn hàng chuyển sang trạng thái Sale Order, tôi phải kiểm tra lại tồn kho một lần nữa để đảm bảo không có sai sót về số lượng trước khi đóng gói.
 
 ### 2.3. Giao hàng & Hóa đơn (Delivery & Invoice)
-* **US25:** Là một nhân viên kho, tôi muốn in "Phiếu soạn hàng" (Picking List) từ đơn hàng Sale Order để biết chính xác vị trí và số lượng thiết bị cần lấy trong kho.
-* **US26:** Là một nhân viên kế toán, tôi muốn hệ thống tự động gom các đơn hàng đã giao thành công trong ngày để xuất hóa đơn điện tử hàng loạt, giúp tiết kiệm thời gian nhập liệu thủ công.
-* **US27:** Là một khách hàng, tôi muốn nhận được mã vận đơn (Tracking Number) qua email để có thể chủ động theo dõi vị trí của ống kính/máy ảnh mình đã đặt.
+* **US24:** Là một nhân viên kho, tôi muốn in "Phiếu soạn hàng" (Picking List) từ đơn hàng Sale Order để biết chính xác vị trí và số lượng thiết bị cần lấy trong kho.
+* **US25:** Là một nhân viên kế toán, tôi muốn hệ thống tự động gom các đơn hàng đã giao thành công để xuất hóa đơn điện tử hàng loạt.
 
 ---
 
 ## Phần 3: Đặc tả dữ liệu (Data Schema)
 
-Để quản lý luồng $Draft \text{ Order} \rightarrow Sale \text{ Order} \rightarrow Delivery \rightarrow Invoice$, hệ thống cần các trạng thái và liên kết dữ liệu chặt chẽ.
-
 ### 3.1. Order Status (Trạng thái Đơn hàng)
 | Trạng thái | Ý nghĩa |
 | :--- | :--- |
-| `Draft` | Đơn hàng nháp, chưa trừ tồn kho, có thể chỉnh sửa giá/số lượng. |
-| `Confirmed` (Sale Order) | Đã xác nhận thanh toán/mua hàng, tồn kho đã bị trừ. |
+| `Draft` | Đơn hàng nháp, chưa trừ tồn kho. |
+| `Confirmed` | Đã xác nhận thanh toán/mua hàng. |
 | `Processing` | Kho đang thực hiện lấy hàng và đóng gói. |
-| `Shipped` | Đã giao cho đơn vị vận chuyển (Có Tracking Number). |
-| `Invoiced` | Đã xuất hóa đơn tài chính và ghi nhận doanh thu kế toán. |
-| `Cancelled` | Đơn bị hủy, tồn kho được hoàn lại. |
+| `Shipped` | Đã giao cho đơn vị vận chuyển. |
+| `Delivered` | Giao hàng thành công. |
+| `Cancelled` | Đơn bị hủy, hoàn tồn kho. |
 
 ### 3.2. Delivery Object (Thông tin Giao hàng)
 | Trường dữ liệu | Kiểu dữ liệu | Mô tả |
 | :--- | :--- | :--- |
 | `Delivery_ID` | String | Mã phiếu xuất kho. |
 | `Order_ID` | String | Liên kết với Sale Order (FK). |
-| `Shipping_Method` | String | GHTK, Viettel Post, hoặc nhận tại cửa hàng Kochi Lens. |
-| `Weight_Total` | Decimal | Tổng trọng lượng (để tính phí ship chính xác). |
-| `Scheduled_Date` | Date | Ngày dự kiến giao hàng. |
+| `Shipping_Method`| String | GHTK, Viettel Post, v.v. |
+| `Tracking_No` | String | Mã vận đơn. |
 
 ### 3.3. Invoice Object (Hóa đơn)
 | Trường dữ liệu | Kiểu dữ liệu | Mô tả |
 | :--- | :--- | :--- |
-| `Invoice_Number` | String | Số hóa đơn tài chính (Mẫu số/Ký hiệu). |
-| `Sale_Order_ID` | String | Liên kết đơn hàng gốc. |
-| `Tax_Date` | Date | Ngày ký hóa đơn. |
-| `Total_Untaxed` | Decimal | Tổng tiền trước thuế. |
-| `Total_Tax` | Decimal | Tổng tiền thuế $VAT$. |
+| `Invoice_No` | String | Số hóa đơn tài chính. |
 | `Total_Amount` | Decimal | Tổng giá trị thanh toán cuối cùng. |
+| `Tax_Date` | Date | Ngày ký hóa đơn. |
