@@ -1,7 +1,6 @@
 # SRS - 2.2. Giỏ hàng & Thanh toán
 **Dự án:** Website E-commerce Kochi Lens
 ---
-
 ## Phần 1: Mô hình hóa quy trình (Business Flow)
 
 ### 1.1. Sơ đồ Use Case
@@ -14,34 +13,49 @@ Tập trung vào tương tác giữa khách hàng, hệ thống tính toán và 
 
 ```mermaid
 usecaseDiagram
-flowchart LR
-    cus["Customer"] --> UC7["Quản lý Giỏ hàng"]
-    cus --> UC8["Tính toán Thuế & Phí Ship"]
-    cus --> UC9["Thanh toán Trực tuyến"]
+    actor "Customer" as cus
+    actor "Payment Gateway" as pg
+    actor "Shipping API" as ship
+    actor "Accountant" as acc
 
-    acc["Accountant"] --> UC10["Đối soát giao dịch"]
+    package "Kochi Lens Checkout System" {
+        usecase "Quản lý Giỏ hàng" as UC7
+        usecase "Tính toán Thuế & Phí Ship" as UC8
+        usecase "Thanh toán Trực tuyến" as UC9
+        usecase "Đối soát giao dịch" as UC10
+    }
 
-    UC8 -->|Lấy phí ship| ship["Shipping API"]
-    UC9 -->|Chuyển hướng thanh toán| pg["Payment Gateway"]
-
-    pg -->|IPN/Webhook| UC10
+    cus --> UC7
+    cus --> UC8
+    cus --> UC9
+    UC8 --|> ship : Lấy phí ship
+    UC9 --|> pg : Chuyển hướng thanh toán
+    acc --> UC10
+    pg --|> UC10 : Phản hồi IPN/Webhook
 ```
 
 ### 1.2. Sơ đồ Activity (Quy trình Thanh toán & Tích hợp)
 
 ```mermaid
-flowchart LR
-    cus[Customer] --> UC7[Quản lý Giỏ hàng]
-    cus --> UC8["Tính toán Thuế & Phí Ship"]
-    cus --> UC9["Thanh toán Trực tuyến"]
-
-    acc[Accountant] --> UC10[Đối soát giao dịch]
-
-    UC8 -->|Lấy phí ship| ship[Shipping API]
-    UC9 -->|Chuyển hướng thanh toán| pg[Payment Gateway]
-
-    pg -->|IPN/Webhook| UC10
+flowchart TD
+    A[Giỏ hàng] --> B[Nhập thông tin giao hàng & MST]
+    B --> C[Hệ thống gọi Shipping API]
+    C --> D[Hệ thống tính VAT & Tổng tiền]
+    D --> E[Khách chọn Cổng thanh toán VNPay/Momo]
+    
+    E --> F[Hệ thống tạo Giao dịch tạm & Redirect tới Cổng]
+    F --> G{Khách xác thực thanh toán?}
+    
+    G -- "Hủy/Thất bại" --> H[Trở về Giỏ hàng & Báo lỗi]
+    G -- "Thành công" --> I[Cổng thanh toán gửi Webhook/IPN]
+    
+    I --> J[Hệ thống cập nhật Đơn hàng: Confirmed]
+    J --> K[Ghi nhận doanh thu vào BackEnd Kế toán]
+    K --> L[Thông báo Kho chuẩn bị hàng]
+    
+    L --> M([Kết thúc])
 ```
+
 ---
 
 ## Phần 2: Đặc tả chức năng (Functional Requirements)
